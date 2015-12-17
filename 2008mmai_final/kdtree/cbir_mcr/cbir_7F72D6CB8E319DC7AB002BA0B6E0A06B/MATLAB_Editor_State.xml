@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Editor version="1.0">
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier" lastWrittenTime="1228273601126" name="linear_regression.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier\kdtree" lastWrittenTime="1228273622799" name="k_nearest_neighbor.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier" lastWrittenTime="1228273747239" name="dd1_neural_networks.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw5" lastWrittenTime="1228287996393" name="naive_bayes_1.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw5" lastWrittenTime="1228296751405" name="naive_bayes_0.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier" lastWrittenTime="1228555573700" name="rbfn.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw5" lastWrittenTime="1228556736879" name="wdnn.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw5" lastWrittenTime="1228556739207" name="hw5_3.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw4" lastWrittenTime="1228569024860" name="radial_basis_function_network.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier\rbfn" lastWrittenTime="1228569585145" name="hw4_3.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier\plr" lastWrittenTime="1228571373734" name="plr.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier\plr" lastWrittenTime="1228571636986" name="plr_learning.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier\rbfn" lastWrittenTime="1229429929391" name="rbfn.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier\rbfn" lastWrittenTime="1229429930391" name="demo_rbfn_active.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw4" lastWrittenTime="1229429931422" name="hw4_3.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier\plr" lastWrittenTime="1229429932157" name="demo_plr_active.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier\plr" lastWrittenTime="1229429933547" name="plr_testing.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\classfier\plr" lastWrittenTime="1229429935297" name="demo_plr_linux.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw5" lastWrittenTime="1229429937532" name="hw5_4.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw5" lastWrittenTime="1229429938798" name="naive_bayes.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6" lastWrittenTime="1229430457489" name="6.3_1.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6" lastWrittenTime="1229430490241" name="hw6.3_1.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6" lastWrittenTime="1229438633506" name="stumplearn_htlin.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6" lastWrittenTime="1229505771122" name="stumpfunc.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6" lastWrittenTime="1229506387790" name="adafunc.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6" lastWrittenTime="1229506389290" name="adalearn.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6" lastWrittenTime="1229506429713" name="hw6_3_1.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6" lastWrittenTime="1229560222029" name="hw6_3_2.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6\6.4" lastWrittenTime="1229674379038" name="stumpfunc.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6\6.4" lastWrittenTime="1229674380476" name="stumplearn.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6\6.3" lastWrittenTime="1229674814617" name="hw6_3_2.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6\6.3" lastWrittenTime="1229674814617" name="stumpfunc.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw6\6.3" lastWrittenTime="1229674814633" name="stumplearn.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008mmai\2008mmai_final_proj" lastWrittenTime="1229933397266" name="cbir_train.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008mmai\2008mmai_final_proj" lastWrittenTime="1229933400454" name="cbir_feature_extract.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw7" lastWrittenTime="1230532469488" name="softsvm.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw7" lastWrittenTime="1230628322187" name="hw7_1_b.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw7" lastWrittenTime="1230628411831" name="hw7_1_1c.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw7" lastWrittenTime="1230628416550" name="hw7_1_c.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw7" lastWrittenTime="1230628421519" name="hw7_1.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw7" lastWrittenTime="1231123350186" name="hardpoly_svmlearn.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw7" lastWrittenTime="1231124470941" name="hw7_1_1b.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw7" lastWrittenTime="1231144089437" name="lin_svmfunc.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw7" lastWrittenTime="1231144094702" name="hw7_3.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008ml\hw7" lastWrittenTime="1231144096281" name="softlin_svmlearn.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008mmai\2008mmai_final_proj\kdtree" lastWrittenTime="1231166397510" name="helloworld.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008mmai\kdtree" lastWrittenTime="1231166397525" name="cbir.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008mmai\2008mmai_final_proj\kdtree" lastWrittenTime="1231178630280" name="tt.m">
+      <CodeFolds version="1.0"/>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008mmai\2008mmai_final_proj\kdtree" lastWrittenTime="1231179534953" name="cbir.m">
+      <CodeFolds version="1.0">
+         <FoldType name="function">
+            <Fold endOffset="1492" startOffset="650" state="collapsed"/>
+            <Fold endOffset="2183" startOffset="1532" state="collapsed"/>
+            <Fold endOffset="2876" startOffset="2270" state="collapsed"/>
+            <Fold endOffset="3258" startOffset="2927" state="collapsed"/>
+            <Fold endOffset="3636" startOffset="3325" state="collapsed"/>
+            <Fold endOffset="5011" startOffset="3701" state="collapsed"/>
+            <Fold endOffset="5287" startOffset="5042" state="collapsed"/>
+            <Fold endOffset="5492" startOffset="5335" state="collapsed"/>
+            <Fold endOffset="5670" startOffset="5567" state="collapsed"/>
+            <Fold endOffset="5896" startOffset="5727" state="collapsed"/>
+         </FoldType>
+      </CodeFolds>
+   </File>
+   <File absPath="C:\Documents and Settings\dreamway\My Documents\coursesNTU\2008mmai\2008mmai_final_proj" lastWrittenTime="1231179534969" name="tt.m">
+      <CodeFolds version="1.0"/>
+   </File>
+</Editor>

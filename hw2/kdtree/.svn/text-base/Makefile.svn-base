@@ -1,0 +1,60 @@
+CXXFLAGS = -j2 -O2 -g -Wall -fmessage-length=0 -D CPPONLY
+
+## make these point to the one in the matlab directories
+# linux default preferences
+ifeq ($(shell uname),Linux)
+
+endif
+# default darwin preferences
+ifeq ($(shell uname),Darwin)
+    MXX = /Applications/matlab/bin/mex
+    MXXFLAGS = -I/Applications/matlab/extern/include
+endif
+# my cardiff@GrUVi lab machine
+ifeq ($(shell uname -n),cardiff)
+    MXX = /Applications/MATLAB_R2008a/bin/mex
+    MXXFLAGS = -I/Applications/MATLAB_R2008a/extern/include
+endif
+
+TARGET = kdtree_build kdtree_nearest_neighbor kdtree_range_query kdtree_ball_query
+MEXTARGET = kdtree_build.mexmaci kdtree_nearest_neighbor.mexmaci kdtree_range_query.mexmaci kdtree_ball_query.mexmaci kdtree_k_nearest_neighbors.mexmaci
+#TARGET = 
+#MEXTARGET = kdtree_k_nearest_neighbors.mexmaci
+
+HDRS = KDTree.h MyHeaps.h
+
+all: $(TARGET) mex
+
+kdtree_build: $(HDRS) kdtree_build.cpp
+	$(CXX) $(CXXFLAGS) -o kdtree_build kdtree_build.cpp
+	
+kdtree_build.mexmaci: $(HDRS) kdtree_build.cpp
+	$(MXX) $(MXXFLAGS) -o kdtree_build.mexmaci kdtree_build.cpp
+
+kdtree_nearest_neighbor: $(HDRS) kdtree_nearest_neighbor.cpp
+	$(CXX) $(CXXFLAGS) -o kdtree_nearest_neighbor kdtree_nearest_neighbor.cpp
+
+kdtree_nearest_neighbor.mexmaci: $(HDRS) kdtree_nearest_neighbor.cpp
+	$(MXX) $(MXXFLAGS) -o kdtree_nearest_neighbor.mexmaci kdtree_nearest_neighbor.cpp
+
+kdtree_range_query: $(HDRS) kdtree_range_query.cpp
+	$(CXX) $(CXXFLAGS) -o kdtree_range_query kdtree_range_query.cpp
+
+kdtree_range_query.mexmaci: $(HDRS) kdtree_range_query.cpp
+	$(MXX) $(MXXFLAGS) -o kdtree_range_query.mexmaci kdtree_range_query.cpp
+	
+kdtree_ball_query: $(HDRS) kdtree_ball_query.cpp
+	$(CXX) $(CXXFLAGS) -o kdtree_ball_query kdtree_ball_query.cpp
+
+kdtree_ball_query.mexmaci: $(HDRS) kdtree_ball_query.cpp
+	$(MXX) $(MXXFLAGS) -o kdtree_ball_query.mexmaci kdtree_ball_query.cpp
+
+# -----------------------------------------------------#
+kdtree_k_nearest_neighbors.mexmaci: $(HDRS) kdtree_k_nearest_neighbors.cpp
+	$(MXX) $(MXXFLAGS) -o kdtree_k_nearest_neighbors.mexmaci kdtree_k_nearest_neighbors.cpp
+
+
+mex: $(MEXTARGET)
+
+clean:
+	rm -f $(OBJS) $(TARGET) $(MEXTARGET)

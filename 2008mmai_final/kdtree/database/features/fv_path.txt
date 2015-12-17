@@ -1,0 +1,6 @@
+dataset\dress\1.JPG
+dataset\dress\2.JPG
+dataset\dress\3.JPG
+dataset\dress\4.JPG
+dataset\dress\5.JPG
+dataset\dress\6.JPG

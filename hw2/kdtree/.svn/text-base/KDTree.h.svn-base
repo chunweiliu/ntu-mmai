@@ -1,0 +1,430 @@
+// TAB SIZE: 4
+#ifndef _KDTREE_H_
+#define _KDTREE_H_
+ 
+#ifndef CPPONLY
+#include "mex.h"
+#endif
+
+#include <vector>
+#include <math.h>
+#include "MyHeaps.h"
+using namespace std;
+
+typedef vector<double> Point;
+
+#define ROOT 0
+
+class Node{
+public:
+    double		key;		// the key (value along k-th dimension) of the split
+    int			LIdx;		// the index to the left cell  (-1 if none)
+	int			RIdx;		// the index to the right cell (-1 if none)
+	
+	/**
+	 * A poiter back to the structure data of input points, 
+	 * but ONLY if the node is a LEAF, otherwise value is (-1)
+	 */	
+	int			pIdx;
+	
+	inline bool isLeaf() const{
+		return pIdx>=0;
+	}
+	/// Default constructor
+	Node(){
+		LIdx = -1;
+		RIdx = -1;
+		key  = -1;
+		pIdx  = -1;
+	}
+};
+class KDTree {
+    
+protected:
+    vector<Point> points;    // Points data
+    vector<Node*> nodesPtrs; // Memory to keep nodes
+public:
+    int     ndim;           // Data dimensionality
+    int     npoints;        // Number of points
+    
+    // destructor... delete the nodes
+    ~KDTree(){
+    	for (unsigned int i=0; i < nodesPtrs.size(); i++)
+			delete nodesPtrs[i];
+    }
+    
+    /// Creates a KDtree filled with data
+    void create(vector<Point>& points, int npoints, int ndim){
+
+    	// initialize data
+    	this -> npoints   = npoints;
+    	this -> ndim      = ndim;
+        this -> points    = points;
+        nodesPtrs.reserve( npoints );
+        
+	    // create the heap structure at support of the creation
+	    vector< MinHeap<double> > heaps(ndim, npoints);
+	    for( int dIdx=0; dIdx<ndim; dIdx++ )
+	    	for( int pIdx=0; pIdx<npoints; pIdx++ )
+	    		heaps[dIdx].push( points[pIdx][dIdx], pIdx );
+		    
+	    // invoke heap sort generating indexing vectors
+	    vector< vector<int> > indexes( ndim, vector<int>(npoints,0) );
+	    for( int dIdx=0; dIdx<ndim; dIdx++ )
+	    	heaps[dIdx].heapsort( indexes[dIdx] );    
+    
+
+	    // DEBUG: visualize indexes
+	    // cout << "indexing matrix" << endl;
+	    // for (int i=0; i < indexes[0].size(); i++)
+		//	cout << indexes[0][i] << " ";
+		// cout << endl;
+	    
+	    // first partition is on every single point (all true).
+	    int dimension = 0;
+	    vector<bool> current(npoints, true);
+	    build_recursively( points, indexes, current, npoints, dimension );
+    }
+	
+	// recursive function that performs splits along dimension "dim"
+	int build_recursively(vector< Point >& points, vector< vector<int> >& indexes, vector<bool>& current, int npoints, int dim ){		
+		// DEBUG: visualize indexing status
+		// cout << "invoking recurse build current selection of size " << npoints << endl;
+		// for (unsigned int i=0; i < current.size(); i++)
+		//    cout << current[i] << " ";
+		// cout << endl;			
+		// for( int i=0; i< this->npoints; i++ )
+		// 	  cout << current[ indexes[dim][i] ] << " ";
+		// cout << endl;
+		// for( int i=0; i<this->npoints; i++ )
+		//	if( current[indexes[dim][i]])
+		//		cout << indexes[dim][i]<< " ";
+		// cout << endl;
+		
+		// recursion stop condition
+		// if contain only only point, return a leaf pointing to it
+		if( npoints == 1 ){
+			int pIdx = -1;
+			// extract the only point
+			for( int i=0; i< this->npoints; i++ )
+				if( current[ indexes[dim][i] ] ){
+					pIdx = indexes[dim][i];
+					break;
+				}
+			
+			Node* node = new Node();
+			int nodeIdx = nodesPtrs.size();
+			nodesPtrs.push_back( node ); //important to push back here
+			node->LIdx 		= -1;
+			node->RIdx 		= -1;
+			node->key  		= -1;
+			node->pIdx  	= pIdx;
+			return nodeIdx;			
+		}
+		
+		// in dimension "dim" find the element in between the "marked" set, which 
+		// is its median and separate the set in two marking subsets with indexes
+		// l_start, r_start and size l_npoint, r_npoints.
+		int median_count = -1;
+		int median_index = 0;
+		int l_count = 0;
+		int r_count = 0;
+		int median_lim = npoints/2-1; 
+		vector<bool> l_current(this->npoints,0);
+		vector<bool> r_current(this->npoints,0);
+		for( int i=0; i< this->npoints; i++ ){			
+			// if it is currently active.... still partecipating at median
+			if( current[ indexes[dim][i] ] ){
+				median_count++;
+				// create the new data
+				if( median_count < median_lim ){
+					l_current[ indexes[dim][i] ] = true;
+					l_count++;
+				}
+				else if( median_count > median_lim ){
+					r_current[ indexes[dim][i] ] = true;
+					r_count++;
+				}
+				// reached the median
+				else if( median_count == median_lim ){
+					l_current[ indexes[dim][i] ] = true;
+					l_count++;
+					median_index = i;
+				}
+			}
+		}
+		
+		// DEBUG: visualize median pivot computation
+		// cout << "median in current: " << median_index << " pointing to element " <<  indexes[dim][median_index] << endl;
+		
+		// create node and continue recursion
+		Node* node = new Node();
+		int nodeIdx = nodesPtrs.size();
+		nodesPtrs.push_back( node ); //important to push back here
+		node->pIdx  	= -1; //not a leaf
+		node->key  		= points[ indexes[dim][median_index] ][dim];
+		node->LIdx 		= build_recursively( points, indexes, l_current, l_count, (dim+1)%ndim );
+		node->RIdx 		= build_recursively( points, indexes, r_current, r_count, (dim+1)%ndim );
+		return nodeIdx;
+	}
+   
+	/// print linearly
+	void linear_tree_print(){
+		for (unsigned int i=0; i < nodesPtrs.size(); i++) {
+			Node* n = nodesPtrs[i];
+			cout << "[i]" << i << " key: " << n->key << " LIdx: "<< n->LIdx << " RIdx: "<< n->RIdx << endl; 
+		}
+	}
+	
+	/// prints the tree from the root
+	void left_depth_first_print(){
+		left_depth_first_print(0);
+		cout << endl;
+	}
+	
+	void print_tree(){
+		// start from root, which is at level 0
+		print_tree( 0, 0 );
+		cout << endl;
+	}
+	
+	// print the tree
+	void left_depth_first_print( int nodeIdx ){
+		Node* currnode = nodesPtrs[nodeIdx];
+		
+		if( currnode -> LIdx != -1 )
+			left_depth_first_print( currnode -> LIdx );
+		cout << currnode -> key << " ";				
+		if( currnode -> RIdx != -1 )
+			left_depth_first_print( currnode -> RIdx );
+	}
+	
+	// print the tree in a structured way
+	void print_tree( int index, int level ){
+		Node* currnode = nodesPtrs[index];
+		
+		// leaf
+		if( currnode->pIdx >= 0 ){
+			cout << "--- "<< currnode->pIdx << " --- ";
+			for( int i=0; i<ndim; i++ ) cout << points[ currnode->pIdx ][ i ] << " ";
+			cout << endl;
+		}
+		else
+			cout << "l(" << level << ") - " << currnode->key << endl;
+		
+		// navigate the childs
+		if( currnode -> LIdx != -1 ){
+			for( int i=0; i<level; i++ ) cout << "  ";
+			cout << "left: ";
+			print_tree( currnode->LIdx, level+1 );
+		}
+		if( currnode -> RIdx != -1 ){
+			for( int i=0; i<level; i++ ) cout << "  ";
+			cout << "right: ";
+			print_tree( currnode->RIdx, level+1 );
+		}		
+	}
+    
+	// K-dimensional L2 distance (euclidean)
+	inline double distance_squared( const vector<double>& a, const vector<double>& b){
+		double d = 0;
+		double N = a.size(); 
+		for( int i=0; i<N; i++ )
+			d += (a[i]-b[i])*(a[i]-b[i]);
+		return d;
+	}
+	
+	
+	// K-NN (nearest neighbors) query
+    void k_closest_points(const Point& query, int k, vector<int>& idxsInRange){
+    	Node* leaf = descend_to_leaf(query); // search closest leaf
+		double cdistsq = distance_squared( query, points[leaf->pIdx] );
+    	check_border_distance_knn(ROOT, 0, query, cdistsq, idxsInRange); 
+    }
+    void check_border_distance_knn(int nodeIdx, int dim, const Point& pnt, double& cdistsq, vector<int>& idxsInRange){
+		Node* node = nodesPtrs[ nodeIdx ];
+		// cout << "checking node: " << node->idx+1 << endl;
+		
+		// Are we at a leaf node? check if condition and close recursion
+		if( node->pIdx >= 0 ){
+			// is the leaf closer in distance? update optimal distance (used by B&B)
+			// don't update distance... it might pick some points within range, some not
+			// float dsq = distance_squared(pnt, points[ node->pIdx ] );
+			// if (dsq < cdistsq)
+			// 		cdistsq = dsq;
+			
+			// whatever node I touch, save it
+			idxsInRange.push_back( node->pIdx );
+			return; // important!
+		}
+		
+		// The distance squared along the CURRENT DIMENSION between the point and the key
+		float ndistsq = (node->key - pnt[dim])*(node->key - pnt[dim]);
+		// cout << "distance to key: " << ndistsq << " optimal current distance: " << cdistsq << "(dim:"<<dim<<")"<<endl;
+	
+		// If the distance squared from the key to the current value is greater than the 
+		// nearest distance, we need only look in one direction.
+		if (ndistsq > cdistsq) {
+			if (node->key > pnt[dim])
+				check_border_distance_knn(node->LIdx, (dim+1)%ndim, pnt, cdistsq, idxsInRange);
+		    else
+		    	check_border_distance_knn(node->RIdx, (dim+1)%ndim, pnt, cdistsq, idxsInRange);
+		}
+		// If the distance from the key to the current value is less than the nearest distance, 
+		// we still need to look in both directions.
+		else {
+			//cout << "both directions need to be checked" << endl;
+			check_border_distance_knn(node->LIdx, (dim+1)%ndim, pnt, cdistsq, idxsInRange);
+		    check_border_distance_knn(node->RIdx, (dim+1)%ndim, pnt, cdistsq, idxsInRange);
+		}
+	}
+	/// Computes the closest point in the set to the query "p"
+	int closest_point(Point p){
+		Node* leaf = descend_to_leaf(p); // search closest leaf
+		double cdistsq = distance_squared( p, points[leaf->pIdx] ); 	// best distance at the moment 
+		// cout << "first approximation: " << leaf->idx+1 << endl;
+		int closest_neighbor = leaf->pIdx; 
+		check_border_distance(ROOT, 0, p, cdistsq, closest_neighbor); 		//check if anything else can do better
+		return closest_neighbor;
+	}
+	/**
+	 * @param nodeIdx the index of the node to check for the current recursion
+	 * @param dim     the dimension to check in the current recursion
+	 * @param pnt     the query point
+	 * @param cdistsq the euclidean distance for query to the point "idx"
+	 * @param idx     the index to the "currently" valid closest point
+	 */
+	void check_border_distance(int nodeIdx, int dim, Point pnt, double& cdistsq, int& idx){
+		Node* node = nodesPtrs[ nodeIdx ];
+		// cout << "checking node: " << node->idx+1 << endl;
+		
+		// Are we at a leaf node? check if condition and close recursion
+		if( node->pIdx >= 0 ){
+			// is the leaf closer in distance?
+			float dsq = distance_squared(pnt, points[ node->pIdx ] );
+			if (dsq < cdistsq){
+				cdistsq = dsq;
+			    idx = node->pIdx;
+			    // cout << "updated optimal with: " << node -> idx+1 << endl;
+			}
+			return;
+		}
+		
+		// The distance squared along the CURRENT DIMENSION between the point and the key
+		float ndistsq = (node->key - pnt[dim])*(node->key - pnt[dim]);
+		// cout << "distance to key: " << ndistsq << " optimal current distance: " << cdistsq << "(dim:"<<dim<<")"<<endl;
+	
+		// If the distance squared from the key to the current value is greater than the 
+		// nearest distance, we need only look in one direction.
+		if (ndistsq > cdistsq) {
+			if (node->key > pnt[dim])
+				check_border_distance(node->LIdx, (dim+1)%ndim, pnt, cdistsq, idx);
+		    else
+		    	check_border_distance(node->RIdx, (dim+1)%ndim, pnt, cdistsq, idx);
+		}
+		// If the distance from the key to the current value is less than the nearest distance, 
+		// we still need to look in both directions.
+		else {
+			//cout << "both directions need to be checked" << endl;
+			check_border_distance(node->LIdx, (dim+1)%ndim, pnt, cdistsq, idx);
+		    check_border_distance(node->RIdx, (dim+1)%ndim, pnt, cdistsq, idx);
+		}
+	}
+
+	/**
+	 * @param p the input point for which closest neighbor need to be found
+	 * @return the LEAF NODE that has been reached
+	 */
+	Node* descend_to_leaf(Point p){
+		int dim = 0; // variable to cycle through dimensions
+		Node* node = nodesPtrs[0];
+		
+		for (;;) {
+			// Is leaf node... this is my stop
+			if( node->pIdx >= 0 )
+				return node;
+			
+			// Not a leaf... browse through
+			if( p[dim] <= node->key )
+				node = nodesPtrs[ node -> LIdx ];
+			else
+				node = nodesPtrs[ node -> RIdx ];
+			dim = (dim + 1) % ndim;
+		}
+	}
+	/// Checks if p lies in the range defined by pMin and pMax
+	bool lies_in_range( const Point& p, const Point& pMin, const Point& pMax ){
+		for (int dim=0; dim < ndim; dim++)
+			if( p[dim]<pMin[dim] || p[dim]>pMax[dim] )
+				return false;
+		return true;
+	}
+	
+	/// this is similar to "range_query" i just replaced lies_in_range with euclidean distance
+	void ball_bbox_query(int nodeIdx, Point& pmin, Point& pmax, vector<int>& inrange_idxs, const Point& point, const double& radiusSquared, int dim=0){
+		Node* node = nodesPtrs[nodeIdx];
+		//cout << "I am in: "<< nodeIdx << "which is is leaf?" << node->isLeaf() << endl;
+	
+		// if it's a leaf and it lies in R
+		if( node->isLeaf() ){
+			if( distance_squared(points[node->pIdx], point) <= radiusSquared ){
+				inrange_idxs.push_back( node->pIdx );
+				return;
+			}
+		}
+		else{
+			if(node->key >= pmin[dim] && node->LIdx != -1 )
+				ball_bbox_query( node->LIdx, pmin, pmax, inrange_idxs, point, radiusSquared, (dim+1)%ndim);
+			if(node->key <= pmax[dim] && node->RIdx != -1 )
+				ball_bbox_query( node->RIdx, pmin, pmax, inrange_idxs, point, radiusSquared, (dim+1)%ndim);
+		}
+	}
+	/**
+	 *  Query all points at distance less or than radius from point
+	 *  This is a fairly unefficient implementation for 2) reasons:
+	 * 
+	 * 1) the range query is not implemented in its most efficient way
+	 * 2) all the points in between the bbox and the ball are visited as well, then rejected
+	 */
+	void ball_query( const Point& point, const double radius, vector<int>& idxsInRange ){
+		// create pmin pmax that bound the sphere
+		Point pmin(ndim,0);
+		Point pmax(ndim,0);
+		for (int dim=0; dim < ndim; dim++) {
+			pmin[dim] = point[dim]-radius;
+			pmax[dim] = point[dim]+radius;
+		}
+		// start from root at zero-th dimension
+		ball_bbox_query( ROOT, pmin, pmax, idxsInRange, point, radius*radius, 0 );
+	}
+	
+	
+	/// Range query
+	void range_query( const Point& pmin, const Point& pmax, vector<int>& inrange_idxs ){
+		// start from root at zero-th dimension
+		range_query( ROOT, pmin, pmax, inrange_idxs );
+	}
+	void range_query( int nodeIdx, const Point& pmin, const Point& pmax, vector<int>& inrange_idxs, int dim=0 ){
+		Node* node = nodesPtrs[nodeIdx];
+		//cout << "I am in: "<< nodeIdx << "which is is leaf?" << node->isLeaf() << endl;
+	
+		// if it's a leaf and it lies in R
+		if( node->isLeaf() ){
+			if( lies_in_range(points[node->pIdx], pmin, pmax) ){
+				inrange_idxs.push_back( node->pIdx );
+				return;
+			}
+		}
+		else{
+			if(node->key >= pmin[dim] && node->LIdx != -1 )
+				range_query( node->LIdx, pmin, pmax, inrange_idxs, (dim+1)%ndim);
+			if(node->key <= pmax[dim] && node->RIdx != -1 )
+				range_query( node->RIdx, pmin, pmax, inrange_idxs, (dim+1)%ndim);
+		}
+	}
+};
+
+#endif
+
+
+

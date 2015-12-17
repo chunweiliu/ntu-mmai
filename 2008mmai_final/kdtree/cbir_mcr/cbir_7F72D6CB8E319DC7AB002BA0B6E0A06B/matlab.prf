@@ -1,0 +1,31 @@
+#MATLAB Preferences
+#Tue Jan 06 05:46:45 CST 2009
+RLHiddenB2_WB_2006b_1=I16184
+EditorPromptBeforeExitingDebugMode=Bfalse
+RLOrderB2_WB_2006b_1=S0:1:2:3:
+RLPrevInitB2_WB_2006b_1=Btrue
+CodepadShowMessageBar=Bfalse
+FileBrowserFiveColumnWidths=S[150 100 75 150 400]
+ReplaceMatchCase=Bfalse
+ReplaceWordWrap=Bfalse
+MatlabExitConfirm=Bfalse
+EditorNamedBufferOption=I2
+PathBrowserWindowBounds=R50 50 500 400
+RLPrevInitB2_null=Btrue
+ReplaceWholeWord=Btrue
+RLWidthB2_WB_2006b_1_3=I50
+RLWidthB2_WB_2006b_1_2=I50
+RLWidthB2_WB_2006b_1_1=I130
+RLWidthB2_WB_2006b_1_0=I130
+EditorMRU9=S
+EditorMRU8=S
+EditorMRU7=S
+MatlabErrorLogReportTime=J4694550326100535432
+EditorMRU6=S
+EditorMRU5=S
+EditorMRU4=SC:\\Documents and Settings\\dreamway\\My Documents\\coursesNTU\\2008mmai\\2008mmai_final_proj\\tt.m
+EditorMRU3=SC:\\Documents and Settings\\dreamway\\My Documents\\coursesNTU\\2008mmai\\2008mmai_final_proj\\kdtree\\outputs\\query_result.txt
+EditorMRU2=SC:\\Documents and Settings\\dreamway\\My Documents\\coursesNTU\\2008mmai\\2008mmai_final_proj\\kdtree\\cbir.m
+CommandWindowClearConfirmation=Btrue
+EditorMRU1=SC:\\Documents and Settings\\dreamway\\My Documents\\coursesNTU\\2008mmai\\hw2\\kdtree\\cbir.m
+FileBrowserFiveColumnOrder=S[0 1 2 3 4]

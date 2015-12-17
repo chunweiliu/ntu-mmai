@@ -1,0 +1,125 @@
+function k_nearest_neighbor( trainfile, testfile )
+%clc;
+%train : raw input of training data
+%train_set : the real training set
+
+%% compile
+% mex kdtree_build.cpp
+mex kdtree_k_nearest_neighbors.cpp
+% disp('compiled.');
+
+%% create kd-tree with k-fold cross validation | 3.3(3)
+%train = load( trainfile );
+%bins = [2, 4, 5, 10, 20, 25, 50, 100];
+%error_c = [];
+%for kappa = bins
+%    error_c = [error_c, count_cross_validation_error( train, kappa, 1)];
+%end
+
+%% plot figure
+%plot(bins, error_c, '-o');
+%axis([2 100 0.1 0.2]);
+%title('3.3(3)');
+%xlabel('\kappa');
+%ylabel('\nu_v(A,\kappa)');
+%saveas(gcf, 'outputs/3.3(3).png', 'png');
+
+%% create kd-tree with k-nearest neighbor | 3.4(1)
+train = load( trainfile );
+train_set = train;
+tree = kdtree_build( train_set(:, 1:2) );
+
+test = load( testfile );
+test_set = test;
+
+bins = [1, 3, 5, 7, 9, 11, 13, 15];
+error_nu = [];
+error_pi = [];
+error_c = [];
+for k = bins
+    error_nu = [error_nu, error_count( train_set, train_set, tree, k)];
+    error_pi = [error_pi, error_count( test_set, train_set, tree, k )];
+    error_c = [error_c, count_cross_validation_error( train, 10, k)];
+end
+
+%% plot figure
+plot(bins, error_nu, '-ob');
+hold on;
+plot(bins, error_pi, '-*r');
+axis([0 15 -0.01 0.14]);
+title('3.4(1)');
+xlabel('K');
+ylabel('error rate');
+legend('\nu(A_K(Z))', '\pi^{\^}(A_K(Z))');
+saveas(gcf, 'outputs/3.4(1).png', 'png');
+hold off;
+fprintf( '%f\n', error_pi );
+fprintf( '--------------------\n');
+
+plot(bins, error_c, '-o');
+title('3.4(2)');
+xlabel('K');
+ylabel('\nu(A_K, 10)');
+saveas(gcf, 'outputs/3.4(2).png', 'png');
+fprintf( '%f\n', error_c );
+return;
+
+%% error function
+function ret = error_count( test_set, train_set, tree, k )
+error = 0;
+[row, col] = size( test_set );
+len = row;
+for n = 1: len
+    q = test_set( n, 1:2 );     % query data
+    q = q';
+    idxs = kdtree_k_nearest_neighbors(tree,q,k);    % query the nearest data's index
+    
+    q_sign = 0;
+    
+    q_sign = q_sign + train_set( m, 3 );        % sum up all sign as k-nearest vote
+    
+    
+    if q_sign ~= test_set( n, 3)
+        error = error + 1;
+    end
+end
+ret = error / len ;
+return;
+
+%% random sort Z 
+function sorted_train = random_sort( train )
+[row, col] = size( train );
+rand_row = randperm( row );
+rand_column = rand_row';
+rand_train = [train, rand_column]; % put a random column at the end.
+last_column = min( size( rand_train));
+[new_entry, new_idxs] = sort( rand_train(:, last_column)); % sorted by random column and pick the last valid-size's entry be validation set.
+sorted_train = rand_train( new_idxs, 1:last_column-1 );
+return;
+
+%% k-flod cross validation
+function error_c = count_cross_validation_error( train, kappa, k )
+sorted_train = random_sort( train );
+[row, col] = size( sorted_train );
+len = row;
+subsize = len / kappa;
+
+first = 1;
+last = subsize;
+error_c = 0;
+for n = 1:kappa
+    
+    valid_set = sorted_train(first:last, :);
+    train_set = sorted_train(1:first-1, :);
+    train_set = [ train_set; sorted_train(last+1:len, :) ];
+
+    first = first + subsize;
+    last = last + subsize;
+    
+    tree = kdtree_build( train_set(:, 1:2) );               % bulid 2d-tree
+    error_v = error_count( valid_set, train_set, tree, k );
+    
+    error_c = error_c + (error_v * row / kappa);
+end
+error_c = error_c / row;
+return;
